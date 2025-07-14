@@ -1,48 +1,295 @@
-export default function Home() {
+"use client"
+import { useState } from "react";
+import svgPaths from "./svg-assets";
+
+function MdiCheckDecagram() {
   return (
-    <div className="grid bg-background min-h-screen">
-      <main className="relative mx-auto max-w-2xl px-6 pb-24 pt-[10vh] sm:pb-32 lg:px-10 w-full">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid"
-          viewBox="0 0 256 256"
-          className="w-6 md:w-8 mx-auto dark:invert"
-        >
-          <path d="M119.617.069c-.55.05-2.302.225-3.879.35-36.36 3.278-70.419 22.894-91.99 53.044-12.012 16.764-19.694 35.78-22.597 55.922C.125 116.415 0 118.492 0 128.025c0 9.533.125 11.61 1.151 18.64 6.957 48.065 41.165 88.449 87.56 103.411 8.309 2.678 17.067 4.504 27.027 5.605 3.879.425 20.645.425 24.524 0 17.192-1.902 31.756-6.155 46.12-13.486 2.202-1.126 2.628-1.426 2.327-1.677-.2-.15-9.584-12.735-20.845-27.948l-20.47-27.648-25.65-37.956c-14.114-20.868-25.725-37.932-25.825-37.932-.1-.025-.2 16.84-.25 37.431-.076 36.055-.1 37.506-.551 38.357-.65 1.226-1.151 1.727-2.202 2.277-.801.4-1.502.475-5.28.475h-4.33l-1.15-.725a4.679 4.679 0 0 1-1.677-1.827l-.526-1.126.05-50.166.075-50.192.776-.976c.4-.525 1.251-1.2 1.852-1.526 1.026-.5 1.426-.55 5.755-.55 5.105 0 5.956.2 7.282 1.651.376.4 14.264 21.318 30.88 46.514 16.617 25.195 39.34 59.599 50.5 76.488l20.27 30.7 1.026-.675c9.084-5.905 18.693-14.312 26.3-23.07 16.191-18.59 26.626-41.258 30.13-65.428 1.026-7.031 1.151-9.108 1.151-18.64 0-9.534-.125-11.61-1.151-18.641-6.957-48.065-41.165-88.449-87.56-103.411-8.184-2.652-16.892-4.479-26.652-5.58-2.402-.25-18.943-.525-21.02-.325Zm52.401 77.414c1.201.6 2.177 1.752 2.527 2.953.2.65.25 14.562.2 45.913l-.074 44.987-7.933-12.16-7.958-12.16v-32.702c0-21.143.1-33.028.25-33.603.4-1.401 1.277-2.502 2.478-3.153 1.026-.525 1.401-.575 5.33-.575 3.704 0 4.354.05 5.18.5Z" />
-        </svg>
-        <h1 className="text-center font-medium text-4xl xl:text-5xl font-instrument-serif mt-2 sm:mt-4">
-          Welcome to Next.js!
-        </h1>
-        <p className="text-muted-foreground mt-4 sm:mt-6 md:mt-8">
-          Ea laboris do exercitation adipisicing enim. Labore labore dolore
-          occaecat dolor amet fugiat eu nisi commodo nisi ullamco irure.
-          Consectetur ullamco minim sunt voluptate est minim officia nulla eu et
-          nisi proident veniam occaecat.
-          <br />
-          <br />
-          <span className="font-serif italic">
-            <i>Nostrud esse magna ea ad ullamco mollit labore</i>
-          </span>
-          <br />
-          <br />
-          Id aliqua ipsum nulla aute laboris. Elit esse aliquip consequat ad
-          sint quis adipisicing. Proident aute ea proident ex est voluptate
-          consectetur non exercitation laboris nisi. Occaecat Lorem velit fugiat
-          ut tempor ut excepteur nostrud occaecat excepteur voluptate. Occaecat
-          ea anim elit culpa id reprehenderit nostrud veniam reprehenderit ipsum
-          ad fugiat.
-          <br />
-          <br />
-          Tempor magna dolor incididunt cupidatat velit qui officia qui aliquip
-          culpa qui Lorem elit aliquip. Nostrud esse magna ea ad ullamco mollit
-          labore ullamco tempor excepteur et. Occaecat elit duis est cillum in
-          anim. Cillum aliqua laborum sit ea laboris dolore occaecat consequat
-          consectetur. Magna laborum dolore sint incididunt dolor qui incididunt
-          et ea ullamco quis incididunt velit. Occaecat reprehenderit est
-          adipisicing sint. Nulla occaecat ea voluptate laboris ipsum voluptate
-          sit.
-        </p>
-      </main>
+    <div
+      className="relative shrink-0 size-[42px]"
+      data-name="mdi:check-decagram"
+    >
+      <svg
+        className="block size-full"
+        fill="none"
+        preserveAspectRatio="none"
+        viewBox="0 0 42 42"
+      >
+        <g id="mdi:check-decagram">
+          <path
+            d={svgPaths.p1fe61d40}
+            fill="var(--fill-0, #009844)"
+            id="Vector"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function CongratulationsText() {
+  return (
+    <div className="flex flex-col gap-1 items-center text-[#009844] text-center">
+      <h1 className="text-[20px] font-bold tracking-[0.2px]">
+        SELAMAT !
+      </h1>
+      <p className="text-[12px] tracking-[0.12px]">
+        Anda Mendapatkan Hadiah
+      </p>
+    </div>
+  );
+}
+
+function CongratulationsHeader() {
+  return (
+    <div className="flex flex-col gap-2.5 items-center">
+      <MdiCheckDecagram />
+      <CongratulationsText />
+    </div>
+  );
+}
+
+function PrizeImage() {
+  return (
+    <div className="flex items-center justify-center">
+      <div
+        className="bg-center bg-cover bg-no-repeat rounded-2xl shadow-[0px_4px_8px_3px_rgba(0,0,0,0.15)] size-[156px]"
+        style={{ backgroundImage: `url('https://is3.cloudhost.id/raizora/red-ant-colony/motor.png')` }}
+      />
+    </div>
+  );
+}
+
+function MdiCardAccountDetailsOutline() {
+  return (
+    <div className="relative shrink-0 size-5 text-gray-500">
+      <svg
+        className="block size-full"
+        fill="none"
+        preserveAspectRatio="none"
+        viewBox="0 0 20 20"
+      >
+        <g clipPath="url(#clip0_1_87)" id="mdi:card-account-details-outline">
+          <path
+            d={svgPaths.p3d5b4e00}
+            fill="currentColor"
+            id="Vector"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_1_87">
+            <rect fill="white" height="20" width="20" />
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
+  );
+}
+
+function IdField({ nikValue, onNikChange }: { nikValue: string; onNikChange: (value: string) => void }) {
+  return (
+    <div className="flex flex-col gap-2 flex-1">
+      <label className="text-[8px] text-gray-600 tracking-[0.08px] uppercase">
+        NIK KTP
+      </label>
+      <input
+        type="text"
+        value={nikValue}
+        onChange={(e) => onNikChange(e.target.value)}
+        className="bg-transparent text-[12px] text-gray-700 tracking-[0.12px] outline-none placeholder:text-gray-400 w-full"
+        placeholder="Masukkan NIK KTP"
+        maxLength={16}
+      />
+    </div>
+  );
+}
+
+function IdCard({ nikValue, onNikChange }: { nikValue: string; onNikChange: (value: string) => void }) {
+  return (
+    <div className="w-full border-b border-gray-300 pb-4">
+      <div className="flex items-center gap-3 px-4 py-3">
+        <MdiCardAccountDetailsOutline />
+        <IdField nikValue={nikValue} onNikChange={onNikChange} />
+      </div>
+    </div>
+  );
+}
+
+function MdiMapMarkerOutline() {
+  return (
+    <div className="relative shrink-0 size-5 text-gray-500">
+      <svg
+        className="block size-full"
+        fill="none"
+        preserveAspectRatio="none"
+        viewBox="0 0 20 20"
+      >
+        <g id="mdi:map-marker-outline">
+          <path
+            d={svgPaths.p33d10cf0}
+            fill="currentColor"
+            id="Vector"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function AddressField({ addressValue, onAddressChange }: { addressValue: string; onAddressChange: (value: string) => void }) {
+  return (
+    <div className="flex flex-col gap-2 flex-1">
+      <label className="text-[8px] text-gray-600 tracking-[0.08px] uppercase">
+        Alamat Lengkap
+      </label>
+      <textarea
+        value={addressValue}
+        onChange={(e) => onAddressChange(e.target.value)}
+        className="bg-transparent text-[12px] text-gray-700 tracking-[0.12px] outline-none placeholder:text-gray-400 w-full resize-none min-h-[60px] leading-relaxed"
+        placeholder="Masukkan alamat lengkap"
+        rows={3}
+      />
+    </div>
+  );
+}
+
+function AddressCard({ addressValue, onAddressChange }: { addressValue: string; onAddressChange: (value: string) => void }) {
+  return (
+    <div className="w-full border-b border-gray-300 pb-4">
+      <div className="flex items-start gap-3 px-4 py-3">
+        <div className="mt-1">
+          <MdiMapMarkerOutline />
+        </div>
+        <AddressField addressValue={addressValue} onAddressChange={onAddressChange} />
+      </div>
+    </div>
+  );
+}
+
+function MdiLocation() {
+  return (
+    <div className="absolute left-1/2 size-6 top-1/2 translate-x-[-50%] translate-y-[-50%]">
+      <svg
+        className="block size-full"
+        fill="none"
+        preserveAspectRatio="none"
+        viewBox="0 0 24 24"
+      >
+        <g id="mdi:location">
+          <path
+            d={svgPaths.p3aac8400}
+            fill="#FF4848"
+            id="Vector"
+            stroke="#505050"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function MapSection() {
+  return (
+    <div className="relative w-full rounded-lg overflow-hidden">
+      <div
+        className="h-40 w-full bg-gray-200 relative"
+        style={{ 
+          backgroundImage: `url('https://is3.cloudhost.id/raizora/red-ant-colony/map.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <MdiLocation />
+      </div>
+    </div>
+  );
+}
+
+function FormSection({ nikValue, onNikChange, addressValue, onAddressChange }: { 
+  nikValue: string; 
+  onNikChange: (value: string) => void;
+  addressValue: string; 
+  onAddressChange: (value: string) => void;
+}) {
+  return (
+    <div className="w-full space-y-4">
+      <IdCard nikValue={nikValue} onNikChange={onNikChange} />
+      <AddressCard addressValue={addressValue} onAddressChange={onAddressChange} />
+      <MapSection />
+    </div>
+  );
+}
+
+function SubmitButton({ nikValue, addressValue }: { nikValue: string; addressValue: string }) {
+  const handleSubmit = () => {
+    if (!nikValue.trim() || !addressValue.trim()) {
+      alert('Mohon lengkapi semua data terlebih dahulu');
+      return;
+    }
+    
+    alert(`Data berhasil disimpan!\nNIK KTP: ${nikValue}\nAlamat: ${addressValue}`);
+  };
+
+  const isDisabled = !nikValue.trim() || !addressValue.trim();
+
+  return (
+    <button
+      onClick={handleSubmit}
+      disabled={isDisabled}
+      className={`w-full px-6 py-4 rounded-lg font-bold text-[14px] tracking-[0.14px] transition-all duration-200 ${
+        isDisabled 
+          ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+          : 'bg-[#009844] text-white hover:bg-[#007A37] active:scale-[0.98]'
+      }`}
+    >
+      Klaim Hadiah Sekarang
+    </button>
+  );
+}
+
+export default function App() {
+  const [nikValue, setNikValue] = useState("");
+  const [addressValue, setAddressValue] = useState("");
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-start justify-center p-4">
+      <div className="w-full max-w-[480px] bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="p-6 space-y-6">
+          {/* Hero Background */}
+          <div
+            className="h-[177px] rounded-xl bg-center bg-cover bg-no-repeat"
+            style={{ backgroundImage: `url('https://is3.cloudhost.id/raizora/red-ant-colony/hero-banner-pfp.png')` }}
+          />
+          
+          {/* Congratulations Section */}
+          <CongratulationsHeader />
+          
+          {/* Prize Image */}
+          <PrizeImage />
+          
+          {/* Prize Description */}
+          <div className="text-center space-y-2">
+            <h2 className="text-[16px] font-bold text-gray-700 tracking-[0.16px] leading-relaxed">
+              Sepeda Motor Yamaha Vixion 250cc, Fuel Injection, Manual
+            </h2>
+            <p className="text-[12px] text-gray-600 tracking-[0.12px] leading-relaxed">
+              Silahkan isi form dibawah ini untuk Ambil Hadiah Anda
+            </p>
+          </div>
+          
+          {/* Form Section */}
+          <div className="space-y-6">
+            <FormSection 
+              nikValue={nikValue} 
+              onNikChange={setNikValue}
+              addressValue={addressValue} 
+              onAddressChange={setAddressValue}
+            />
+            
+            {/* Submit Button */}
+            <SubmitButton nikValue={nikValue} addressValue={addressValue} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
