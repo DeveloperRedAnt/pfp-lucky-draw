@@ -3,7 +3,30 @@ import Group25 from "./assets/group-25";
 import Group24 from "./assets/group-24";
 import Group23 from "./assets/group-23";
 
-const WheelComponent = forwardRef(({
+interface WheelComponentProps {
+  segments: string[];
+  segColors: string[];
+  segTextColors?: string[];
+  segmentWidths?: number[];
+  winningSegment?: string;
+  onFinished?: (visualResult: string) => void;
+  onRotate?: () => void;
+  onRotatefinish?: () => void;
+  primaryColor?: string;
+  primaryColoraround?: string;
+  contrastColor?: string;
+  buttonText?: string;
+  isOnlyOnce?: boolean;
+  size?: number;
+  upDuration?: number;
+  downDuration?: number;
+  fontFamily?: string;
+  width?: number;
+  height?: number;
+  keepSpinning?: boolean;
+}
+
+const WheelComponent = forwardRef<unknown, WheelComponentProps>(({
   segments,
   segColors,
   segTextColors = [], // New prop for custom text colors

@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import WheelComponent from "./wheel-component";
 import ButtonSpin from "./button-spin";
 import { fetchPrizeFromBackend } from "../../services/prizeAPI";
+import { useSpinWheelPrizes } from '@/api/reactQueryHooks';
+
 
 interface Prize {
     text: string;
@@ -18,7 +20,7 @@ interface GameResult {
     responseTime: number;
 }
 
-export default function App() {
+function SpinWheel() {
     const [result, setResult] = useState("");
     const [gameResult, setGameResult] = useState<GameResult | null>(null);
     const [isSpinning, setIsSpinning] = useState(false);
@@ -32,6 +34,9 @@ export default function App() {
   
     // Ref to access wheel component methods
     const wheelRef = useRef(null);
+    const { data, isLoading, error } = useSpinWheelPrizes();
+console.log(data); 
+
   
     const [prizes, setPrizes] = useState<Prize[]>([
       { text: "🎁 Prize 1", color: "#EF4444", textColor: "#FFFFFF", width: 12.5 },
@@ -241,6 +246,19 @@ export default function App() {
             </div>
         </div>
     );
+} 
+
+
+export default function App() {
+    const { data, isLoading, error } = useSpinWheelPrizes();
+    console.log(data);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+    
+    return (
+        <SpinWheel />
+    )
 }
 
 // Declare global interface for temporary storage

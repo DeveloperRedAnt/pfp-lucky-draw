@@ -1,7 +1,10 @@
 "use client"
+import '../mocks/startMock';
 import { useState } from "react";
 import svgPaths from "./svg-assets";
 import SpinPage from "../components/spinner/spin-page";
+import { queryClient } from '@/api/client';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 function MdiCheckDecagram() {
   return (
@@ -307,8 +310,10 @@ function SubmitButton({ nikValue, addressValue }: { nikValue: string; addressVal
 
 export default function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <Layout>
         <SpinPage />
     </Layout>
+    </QueryClientProvider>
   );
 }
