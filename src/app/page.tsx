@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import svgPaths from "./svg-assets";
+import SpinPage from "../components/spinner/spin-page";
 
 function MdiCheckDecagram() {
   return (
@@ -246,14 +247,26 @@ function SubmitButton({ nikValue, addressValue }: { nikValue: string; addressVal
   );
 }
 
-export default function App() {
+ function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-start justify-center p-4">
+    <div className="w-full max-w-[480px] bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="p-6 space-y-6">
+      {children}
+      </div>
+    </div>
+    </div>
+  );
+}
+
+
+
+ function CongratulationsForm() {
   const [nikValue, setNikValue] = useState("");
   const [addressValue, setAddressValue] = useState("");
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-start justify-center p-4">
-      <div className="w-full max-w-[480px] bg-white rounded-xl shadow-lg overflow-hidden">
-        <div className="p-6 space-y-6">
+    <Layout>
           {/* Hero Background */}
           <div
             className="h-[177px] rounded-xl bg-center bg-cover bg-no-repeat"
@@ -288,8 +301,14 @@ export default function App() {
             {/* Submit Button */}
             <SubmitButton nikValue={nikValue} addressValue={addressValue} />
           </div>
-        </div>
-      </div>
-    </div>
+    </Layout>
+  );
+}
+
+export default function App() {
+  return (
+    <Layout>
+        <SpinPage />
+    </Layout>
   );
 }
