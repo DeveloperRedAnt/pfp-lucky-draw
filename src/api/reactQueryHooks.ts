@@ -15,7 +15,7 @@ export const useSpinWheelEvent = () => useQuery({ queryKey: ['spinWheelEvent'], 
 export const useSpinWheelPrizes = () => useQuery({ queryKey: ['spinWheelPrizes'], queryFn: fetchSpinWheelPrizes });
 
 // Gatcha
-export const useSpinWheelGatcha = () => useQuery({ queryKey: ['spinWheelGatcha'], queryFn: fetchSpinWheelGatcha });
+export const useSpinWheelGatcha = () => useMutation({ mutationFn: fetchSpinWheelGatcha });
 
 // Claim Prize
 export const useClaimPrize = () => useMutation({ mutationFn: ({ winnerId, payload }: { winnerId: string; payload: { nik: string; address: string; longitude: string; latitude: string } }) => claimPrize(winnerId, payload) });

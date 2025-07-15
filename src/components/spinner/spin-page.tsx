@@ -2,10 +2,12 @@ import React, { useState, useRef } from "react";
 import WheelComponent from "./wheel-component";
 import ButtonSpin from "./button-spin";
 import { fetchPrizeFromBackend } from "../../services/prizeAPI";
-import { useSpinWheelPrizes } from '@/api/reactQueryHooks';
-
+import { useSpinWheelPrizes, useSpinWheelGatcha } from '@/api/reactQueryHooks';
+import { PrizeDto } from "./dto";
+import { SpinWheelPrizesResponseDto, SpinWheelGatchaResponseDto } from "./dto";
 
 interface Prize {
+    id: string;
     text: string;
     color: string;
     textColor: string; // Added text color property
@@ -20,7 +22,7 @@ interface GameResult {
     responseTime: number;
 }
 
-function SpinWheel() {
+function SpinWheel({ prizeItems }: { prizeItems: PrizeDto[] }) {
     const [result, setResult] = useState("");
     const [gameResult, setGameResult] = useState<GameResult | null>(null);
     const [isSpinning, setIsSpinning] = useState(false);
@@ -34,20 +36,21 @@ function SpinWheel() {
   
     // Ref to access wheel component methods
     const wheelRef = useRef(null);
-    const { data, isLoading, error } = useSpinWheelPrizes();
-console.log(data); 
+
+    // Use the gatcha mutation
+    const spinWheelGatchaMutation = useSpinWheelGatcha();
 
   
-    const [prizes, setPrizes] = useState<Prize[]>([
-      { text: "🎁 Prize 1", color: "#EF4444", textColor: "#FFFFFF", width: 12.5 },
-      { text: "💰 $100", color: "#F97316", textColor: "#FFFFFF", width: 12.5 },
-      { text: "🎯 Try Again", color: "#EAB308", textColor: "#000000", width: 12.5 },
-      { text: "🏆 Grand Prize", color: "#22C55E", textColor: "#FFFFFF", width: 12.5 },
-      { text: "🎪 Bonus Round", color: "#06B6D4", textColor: "#FFFFFF", width: 12.5 },
-      { text: "💎 Jackpot", color: "#3B82F6", textColor: "#FFFFFF", width: 12.5 },
-      { text: "🎈 Free Spin", color: "#8B5CF6", textColor: "#FFFFFF", width: 12.5 },
-      { text: "⭐ Lucky Star", color: "#EC4899", textColor: "#FFFFFF", width: 12.5 }
-    ]);
+    // Map prizeItems to prizes array, dividing width equally
+    const totalItems = prizeItems.length;
+    const width = totalItems > 0 ? 100 / totalItems : 0;
+    const prizes: Prize[] = prizeItems.map(item => ({
+      id: item.id,
+      text: item.title,
+      color: item.bg_color,
+      textColor: item['font-color'],
+      width,
+    }));
   
     // Extract segments, colors, and text colors for the wheel component
     const segments = prizes.map(prize => prize.text);
@@ -85,9 +88,9 @@ console.log(data);
       setTotalSpins(prev => prev + 1);
   
       try {
-        // Start backend call immediately when spinning starts
-        const backendResponse = await fetchPrizeFromBackend(prizes);
-        
+        // Start backend call immediately when spinning starts using mutation
+        const backendResponse = await spinWheelGatchaMutation.mutateAsync();
+        console.log("Backend response:", backendResponse);
         // Backend response received
         setIsFetchingPrize(false);
         
@@ -119,23 +122,28 @@ console.log(data);
     // This function will be called by the wheel component when it finishes
     const handleWheelFinished = (visualResult: string) => {
       const backendResponse = window.backendPrizeResult;
-      
+
       if (backendResponse) {
         // Compare results
-        const isMatch = visualResult === backendResponse.wonPrize;
-        
+        const data = backendResponse as SpinWheelGatchaResponseDto;
+        console.log("Backend response:", data.data.prize_id);
+        const wonPrizeId = data.data.prize_id;
+        const visualResultID = prizeItems.find((item) => item.title === visualResult);
+        const isMatch = visualResultID?.id === wonPrizeId;
+        console.log("visual result",visualResultID);
         // Check if user won a free spin
-        const isFreeSpinResult = visualResult.toLowerCase().includes('free spin') || 
-                                backendResponse.wonPrize.toLowerCase().includes('free spin');
+        // const isFreeSpinResult = visualResult.toLowerCase().includes('free spin') || 
+        //                         backendResponse.wonPrize.toLowerCase().includes('free spin');
         
+        const isFreeSpinResult = false;
         if (isFreeSpinResult) {
           setRemainingSpins(prev => prev + 1);
         }
         
         const finalResult: GameResult = {
           visualResult,
-          backendResult: backendResponse.wonPrize,
-          isLucky: isMatch && backendResponse.isLucky,
+          backendResult: wonPrizeId,
+          isLucky: false,
           message: isMatch && backendResponse.isLucky 
             ? `🎉 Lucky! You got exactly what you landed on: ${visualResult}!`
             : isMatch && !backendResponse.isLucky
@@ -174,19 +182,7 @@ console.log(data);
         delete window.backendPrizeResult;
       }
     };
-  
-    const resetSpins = () => {
-      setRemainingSpins(5);
-      setTotalSpins(0);
-      resetWheel();
-    };
-  
-    const handlePrizesUpdate = (newPrizes: Prize[]) => {
-      setPrizes(newPrizes);
-      if (newPrizes.length !== prizes.length) {
-        resetWheel();
-      }
-    };
+
   
     const totalPercentage = prizes.reduce((sum, prize) => sum + prize.width, 0);
   
@@ -243,6 +239,7 @@ console.log(data);
                     </p>
                   )}
                 </div>
+                {gameResult?.message}
             </div>
         </div>
     );
@@ -251,13 +248,14 @@ console.log(data);
 
 export default function App() {
     const { data, isLoading, error } = useSpinWheelPrizes();
-    console.log(data);
+    
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
-    
+    const respData = data as SpinWheelPrizesResponseDto;
+    const prizeItems = respData.data;
     return (
-        <SpinWheel />
+        <SpinWheel prizeItems={prizeItems} />
     )
 }
 
